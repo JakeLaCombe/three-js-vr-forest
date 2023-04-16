@@ -1,5 +1,7 @@
 import * as THREE from 'three';
-import { BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { AmbientLight, BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import Forest from '@/blender/forest.glb'
 
 export class GameScene {
     private geometry: BoxGeometry;
@@ -22,7 +24,23 @@ export class GameScene {
         this.cube = new Mesh( this.geometry, this.material );
         this.scene.add( this.cube );
 
+        const loader = new GLTFLoader();
+        loader.load(Forest, ( gltf: GLTF ) => {
+
+            this.scene.add( gltf.scene );
+    
+            gltf.animations; // Array<THREE.AnimationClip>
+            gltf.scene; // THREE.Group
+            gltf.scenes; // Array<THREE.Group>
+            gltf.cameras; // Array<THREE.Camera>
+            gltf.asset; // Object
+    
+        })
+
         this.camera.position.z = 5;
+
+        const light = new AmbientLight( 0x404040, 5 ); // soft white light
+        this.scene.add( light );
     }
 
     animate() {

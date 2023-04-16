@@ -16,7 +16,7 @@ export default function Render() {
   })
 
   return (
-    <main className={styles.main}>
+    <main>
       <canvas ref={canvas} ></canvas>
     </main>
   )

@@ -1,5 +1,5 @@
-import * as THREE from 'three';
 import { AmbientLight, BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { VRButton } from 'three/examples/jsm/webxr/VRButton';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Forest from '@/blender/forest.glb'
 
@@ -41,11 +41,13 @@ export class GameScene {
 
         const light = new AmbientLight( 0x404040, 5 ); // soft white light
         this.scene.add( light );
+
+        this.renderer.xr.enabled = true;
+        document.body.appendChild( VRButton.createButton( this.renderer ) );
+        this.renderer.setAnimationLoop(this.animate.bind(this))
     }
 
     animate() {
-	    requestAnimationFrame( this.animate.bind(this) );
-
 	    this.cube.rotation.x += 0.01;
 	    this.cube.rotation.y += 0.01;
 
